@@ -1,88 +1,68 @@
-# Rendering a Route
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-At its heart, React Router is a component.
+## Available Scripts
 
-```js
-render(<Router/>, document.getElementById('app'))
-```
+In the project directory, you can run:
 
-That's not going to display anything until we configure a route.
+### `npm start`
 
-Open up `index.js` and
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-1. import `Router`, `Route`, and `hashHistory`
-2. render a `Router` instead of `App`
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-```js
-// ...
-import { Router, Route, hashHistory } from 'react-router'
+### `npm test`
 
-render((
-  <Router history={hashHistory}>
-    <Route path="/" component={App}/>
-  </Router>
-), document.getElementById('app'))
-```
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Make sure your server is running with `npm start` and then visit
-[http://localhost:8080](http://localhost:8080)
+### `npm run build`
 
-You should get the same screen as before, but this time with some junk
-in the URL. We're using `hashHistory`--it manages the routing history
-with the hash portion of the url. It's got that extra junk to shim some
-behavior the browser has natively when using real urls.  We'll change
-this to use real urls later and lose the junk, but for now, this works
-great because it doesn't require any server-side configuration.
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Adding More Screens
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-Create two new components at:
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- `modules/About.js`
-- `modules/Repos.js`
+### `npm run eject`
 
-```js
-// modules/About.js
-import React from 'react'
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-export default React.createClass({
-  render() {
-    return <div>About</div>
-  }
-})
-```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-```js
-// modules/Repos.js
-import React from 'react'
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-export default React.createClass({
-  render() {
-    return <div>Repos</div>
-  }
-})
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-Now we can couple them to the app at their respective paths.
+## Learn More
 
-```js
-// insert into index.js
-import About from './modules/About'
-import Repos from './modules/Repos'
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-render((
-  <Router history={hashHistory}>
-    <Route path="/" component={App}/>
-    {/* add the routes here */}
-    <Route path="/repos" component={Repos}/>
-    <Route path="/about" component={About}/>
-  </Router>
-), document.getElementById('app'))
-```
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Now visit [http://localhost:8080/#/about](http://localhost:8080/#/about) and
-[http://localhost:8080/#/repos](http://localhost:8080/#/repos)
+### Code Splitting
 
----
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-[Next: Navigating With Link](../03-navigating-with-link/)
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
