@@ -1,0 +1,203 @@
+# 1、useParams
+
+useParams钩子为V5.1.2新增特性，读取路由Route传递的参数。返回一个
+
+包含参数键值对的对象，其实就是this.props.match.params的替代。
+
+```javascript
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+  useParams,
+} from "react-router-dom";
+
+export default function () {
+  return (
+    <Router>
+      <div>------------------useParams-----------------------</div>
+      <div>
+        <Link to="/apple/12/adai">苹果</Link>
+        <Link to="/banana/11">香蕉</Link>
+      </div>
+      <Switch>
+        <Route exact path="/" component={Home}></Route>
+        <Route path="/apple/:id/:name" component={Apple}></Route>
+        <Route path="/banana/:id" component={Banana}></Route>
+      </Switch>
+    </Router>
+  );
+}
+
+function Home() {
+  return <div>this is home</div>;
+}
+
+/* V5.1.2 useParams */
+function Apple() {
+  const { id, name } = useParams();
+  console.log(id, name);
+  return <div>this is apple, id: {id}</div>;
+}
+
+/* <V5.1.2 */
+function Banana(props) {
+  const { id } = props.match.params; // 11
+  return <div>this is banana， id: {id}</div>;
+}
+
+```
+
+# 2、useLocation
+
+该钩子读取到路由传递的location对象，包含pathname、search、hash、key和用户传递的state。在V5.1.2中，直接使用useLocation可以直接读取props的location。
+
+```js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+} from "react-router-dom";
+
+export default function () {
+  return (
+    <Router>
+      <div>------------------useLocation-----------------------</div>
+      <div>
+        <Link to={{ pathname: "/orange/13", state: { name: "adai", age: 22 } }}>
+          橘子
+        </Link>
+        <Link to={{ pathname: "/pear/14", state: { name: "adai", age: 22 } }}>
+          梨子
+        </Link>
+      </div>
+      <Switch>
+        <Route exact path="/" component={Home}></Route>
+        <Route path="/orange/:id" component={Orange}></Route>
+        <Route path="/pear/:id" component={Pear}></Route>
+      </Switch>
+    </Router>
+  );
+}
+
+function Home() {
+  return <div>this is home</div>;
+}
+
+// V5.1.2
+function Orange() {
+  const { id } = useParams();
+  const location = useLocation();
+  console.log(location);
+  /* 
+    {
+      pathname: "/orange/13"
+      state: {name: "adai", age: 22}
+      search: ""
+      hash: ""
+      key: "rj2d34"
+    }
+  */
+  return <div>this is orange, id: {id}</div>;
+}
+// < V5.1.2
+function Pear(props) {
+  const { id } = useParams();
+  const { location } = props;
+  console.log(location);
+  return <div>this is pear ,id: {id}</div>;
+}
+```
+
+#  3、useHistory
+
+useHistory钩子允许您访问可能用于导航的历史实例，在过去的项目中，我们可以使用props.history.push进行路由跳转，现在V5.1.2中新增了useHistory钩子，该钩子返回history对象。
+
+```js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
+
+export default function (props) {
+  return (
+    <Router>
+      <div>------------------useHistory-----------------------</div>
+      <Switch>
+        <Route exact path="/" component={Home}></Route>
+        <Route path="/grapes" component={Grapes}></Route>
+      </Switch>
+    </Router>
+  );
+}
+/* < V5.1.2 */
+function Home(props) {
+  const { history } = props;
+  return (
+    <div>
+      <button onClick={() => history.push("/grapes")}>去吃葡萄</button>
+    </div>
+  );
+}
+/* V5.1.2 */
+function Grapes() {
+  const history = useHistory();
+  return (
+    <div>
+      吃完葡萄了，<button onClick={() => history.goBack()}>返回</button>
+    </div>
+  );
+}
+```
+
+# 4、useRouteMatch
+
+useRouteMatch是V5.1.2增加的最后一个钩子，该钩子接收与<Route>相同的参数来匹配url，同Route一样，但是并不依赖Route组件就可以访问数据。
+
+```js
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
+
+export default function (props) {
+  return (
+    <Router>
+      <div>------------------useRouteMatch-----------------------</div>
+      <Switch>
+        <Route path="/" component={Home2}></Route>
+      </Switch>
+    </Router>
+  );
+}
+/* < V5.1.2 */
+function Home(props) {
+  return (
+    <Route
+      path="/watermelon"
+      exact
+      render={({ match }) => <div>this is watermelon</div>}
+    ></Route>
+  );
+}
+/* V5.1.2 */
+function Home2() {
+  const match = useRouteMatch({ path: "/watermelon", exact: true });
+  console.log(match);
+  return <div>{match && "this is watermelon"}</div>;
+}
+```
+
